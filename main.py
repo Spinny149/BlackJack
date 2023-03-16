@@ -75,14 +75,87 @@ class Chips:
         self.total -= self.bet
 
 
-test_deck = Deck()
-test_deck.shuffle()
+def take_bet(chips):
+    while True:
 
-# Player
+        try:
+            chips.bet = int(input("How many chips would you like to bed: "))
+        except:
+            print("Sorry provide int")
+        else:
+            if chips.bet > chips.total:
+                print('Sorry yo don t have enough chips! You have {}'.format(chips.total))
+            else:
+                break
 
-tp = Hand()
-print(test_deck.deal())
 
-pulled_card = test_deck.deal()
-tp.add_card(pulled_card)
-print(tp.value)
+def hit(deck, hand):
+
+    hand.add_card(deck.deal())
+    hand.adjust_for_ace()
+
+
+def hit_or_stand(deck, hand):
+    global playing
+
+    while True:
+        x = input('Hit or Stand? Enter h or s: ')
+        if x[0].lower() == 'h':
+            hit(deck, hand)
+        elif x[0].lower() == 's':
+            print("Player Stands Dealer's Turn")
+            playing = False
+        else:
+            print("Sorry! Enter h or s")
+            continue
+        break
+
+
+def show_some(player, dealer):
+    print("/n Dealer's Hand:")
+    print("First card hidden!")
+    print(dealer.cards[1])
+
+    print("/n Player's Hand:")
+    for card in player.cards:
+        print(card)
+
+
+def show_all(player, dealer):
+    print("/n Player's Hand:")
+    for card in player.cards:
+        print(card)
+    print(f"Value of Player's Hand is: {player.value}")
+
+    print("/n Dealer's Hand:")
+    for card in dealer.cards:
+        print(card)
+    print(f"Value of Dealer's Hand is: {dealer.value}")
+
+
+def player_busts(player, dealer, chips):
+    print('Bust player')
+    chips.lose_bet()
+
+
+def player_wins(player, dealer, chips):
+    print('Player wins')
+    chips.win_bet()
+
+
+def dealer_busts(player, dealer, chips):
+    print('Bust dealer')
+    chips.lose_bet()
+
+
+def dealer_wins(player, dealer, chips):
+    print('Dealer wins')
+    chips.win_bet()
+
+
+def push(player, dealer):
+    print('Tie')
+
+
+while True:
+    ...
